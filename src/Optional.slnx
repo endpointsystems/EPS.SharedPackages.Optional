@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="Optional.Sandbox/Optional.Sandbox.csproj" />
+    <Project Path="Optional.Tests/Optional.Tests.csproj" />
+  </Folder>
+  <Project Path="Optional.Async/Optional.Async.csproj" />
+  <Project Path="Optional.Samples/Optional.Samples.csproj" />
+  <Project Path="Optional.Utilities/Optional.Utilities.csproj" />
+  <Project Path="Optional/Optional.csproj" />
+</Solution>

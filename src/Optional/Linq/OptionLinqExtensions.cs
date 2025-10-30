@@ -43,7 +43,7 @@ namespace Optional.Linq
                 Func<TSource,
                 Option<TResult, TException>> selector)
         {
-            if (selector == null) throw new ArgumentNullException(nameof(selector));
+            ArgumentNullException.ThrowIfNull(selector);
             return source.FlatMap(selector);
         }
 
@@ -52,8 +52,8 @@ namespace Optional.Linq
                 Func<TSource, Option<TCollection, TException>> collectionSelector,
                 Func<TSource, TCollection, TResult> resultSelector)
         {
-            if (collectionSelector == null) throw new ArgumentNullException(nameof(collectionSelector));
-            if (resultSelector == null) throw new ArgumentNullException(nameof(resultSelector));
+            ArgumentNullException.ThrowIfNull(collectionSelector);
+            ArgumentNullException.ThrowIfNull(resultSelector);
             return source.FlatMap(src => collectionSelector(src).Map(elem => resultSelector(src, elem)));
         }
     }

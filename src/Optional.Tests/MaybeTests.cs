@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-#if !NETSTANDARD10
+#if NETFRAMEWORK
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
 
@@ -96,8 +96,8 @@ namespace Optional.Tests
             Assert.AreNotEqual(Option.Some<string>("val"), Option.Some<string>("val1"));
 
             // Must have same types
-            Assert.AreNotEqual(Option.None<string>(), Option.None<object>());
-            Assert.AreNotEqual(Option.Some<string>("val"), Option.Some<object>("val"));
+            Assert.AreNotEqual((object)Option.None<string>(), (object)Option.None<object>());
+            Assert.AreNotEqual((object)Option.Some<string>("val"), (object)Option.Some<object>("val"));
 
             // Some and None are different
             Assert.AreNotEqual(Option.Some<string>("ex"), Option.None<string>());
@@ -121,7 +121,7 @@ namespace Optional.Tests
             Assert.AreNotEqual((object)Option.None<int>(), (object)Option.Some(22));
             Assert.AreNotEqual((object)Option.Some(21), (object)Option.Some(22));
 
-            // Works with default equalitycomparer 
+            // Works with default equalitycomparer
             Assert.IsTrue(EqualityComparer<Option<int>>.Default.Equals(Option.None<int>(), Option.None<int>()));
             Assert.IsTrue(EqualityComparer<Option<int>>.Default.Equals(Option.Some(22), Option.Some(22)));
             Assert.IsFalse(EqualityComparer<Option<int>>.Default.Equals(Option.Some(22), Option.None<int>()));
@@ -189,8 +189,8 @@ namespace Optional.Tests
             var someNotComparable1 = Option.Some<Dictionary<string, string>>(new Dictionary<string, string>());
             var someNotComparable2 = Option.Some<Dictionary<string, string>>(new Dictionary<string, string>());
 
-            Assert.ThrowsException<ArgumentException>(() => someNotComparable1.CompareTo(someNotComparable2));
-            Assert.ThrowsException<ArgumentException>(() => someNotComparable2.CompareTo(someNotComparable1));
+            try { someNotComparable1.CompareTo(someNotComparable2); Assert.Fail("Expected ArgumentException"); } catch (ArgumentException) { }
+            try { someNotComparable2.CompareTo(someNotComparable1); Assert.Fail("Expected ArgumentException"); } catch (ArgumentException) { }
 
             LessThan(noneNotComparable, someNotComparable1);
             LessThan(noneNotComparable, someNotComparableNull);
@@ -668,7 +668,7 @@ namespace Optional.Tests
             Assert.AreEqual(some3.ValueOr("-1"), "1");
         }
 
-#if !NETSTANDARD10
+#if NETFRAMEWORK
         [TestMethod]
         public void Maybe_Serialization()
         {
